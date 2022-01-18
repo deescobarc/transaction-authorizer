@@ -1,12 +1,12 @@
 package com.bank.lulo.transactionauthorizer.domain.model.account;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 import com.bank.lulo.transactionauthorizer.domain.shared.domaineventbus.DomainEventCollection;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jdk.nashorn.internal.objects.annotations.Property;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,10 +16,10 @@ import java.util.List;
 
 @Getter
 @Setter
-public class Account implements Serializable {
+public final class Account implements Serializable {
 
     @NotEmpty(message = "id empty")
-    private int id;
+    private final int id;
 
     @NotEmpty(message = "active-card empty")
     @JsonProperty("active-card")
@@ -36,13 +36,16 @@ public class Account implements Serializable {
     @JsonIgnore
     private List<String> violations = new ArrayList<>();
 
+    public Account(int id, boolean activeCard, int availableLimit, DomainEventCollection domainEventCollection) {
+        this.id = id;
+        this.activeCard = activeCard;
+        this.availableLimit = availableLimit;
+        this.domainEvents = domainEventCollection;
+    }
+
     public static Account create(int id, boolean activeCard, int availableLimit){
 
-        Account account = new Account();
-        account.setId(id);
-        account.setActiveCard(activeCard);
-        account.setAvailableLimit(availableLimit);
-        account.setDomainEvents(new DomainEventCollection());
+        Account account = new Account(id, activeCard, availableLimit, new DomainEventCollection());
 
         account.domainEvents.add(new AccountCreatedDomainEvent(account.getId()));
         return account;

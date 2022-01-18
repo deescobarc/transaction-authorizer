@@ -11,18 +11,24 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class Transaction implements Serializable {
+public final class Transaction implements Serializable {
 
     @NotEmpty(message = "id empty")
-    private int idAccount;
+    private final int idAccount;
 
     @NotEmpty(message = "merchant empty")
-    private String merchant;
+    private final String merchant;
 
     @NotEmpty(message = "amount empty")
-    private int idCuenta;
+    private final int idCuenta;
 
     @NotNull(message = "time empty")
-    private LocalDateTime time;
+    private final LocalDateTime time;
 
+    public Transaction(int idAccount, String merchant, int idCuenta, LocalDateTime time) {
+        this.idAccount = idAccount;
+        this.merchant = merchant;
+        this.idCuenta = idCuenta;
+        this.time = time;
+    }
 }

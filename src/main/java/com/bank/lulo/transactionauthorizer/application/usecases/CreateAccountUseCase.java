@@ -4,6 +4,7 @@ import com.bank.lulo.transactionauthorizer.application.util.AccountValidate;
 import com.bank.lulo.transactionauthorizer.domain.model.account.Account;
 import com.bank.lulo.transactionauthorizer.domain.model.account.AccountRepository;
 import com.bank.lulo.transactionauthorizer.domain.shared.domaineventbus.DomainEventBus;
+import com.bank.lulo.transactionauthorizer.domain.shared.domaineventbus.DomainEventCollection;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,8 +24,7 @@ public class CreateAccountUseCase {
 
     public void handle(int id, boolean activeCard, int availableLimit) throws Exception {
 
-        Account account = new Account();
-        account.setId(id);
+        Account account = new Account(id, activeCard, availableLimit, new DomainEventCollection());
         accountValidate.setAccountRepository(accountRepository);
 
         List<String> violations = accountValidate.validateAccount(account);

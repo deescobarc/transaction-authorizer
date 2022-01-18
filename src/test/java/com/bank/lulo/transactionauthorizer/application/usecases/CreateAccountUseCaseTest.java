@@ -23,7 +23,7 @@ import java.util.List;
 public class CreateAccountUseCaseTest {
 
     CreateAccountUseCase createAccountUseCase;
-    Account account = new Account();
+    Account account;
     GetAccountUseCase getAccountUseCase;
 
     @Mock
@@ -46,10 +46,7 @@ public class CreateAccountUseCaseTest {
     public void account_already_initialized () throws Exception {
         List<String> listMock = new ArrayList<String>();
         listMock.add("account-already-initialized");
-        account.setId(1);
-        account.setActiveCard(true);
-        account.setAvailableLimit(100);
-        account.setDomainEvents(new DomainEventCollection());
+        account = new Account(1, true, 100, new DomainEventCollection());
 
         when(accountValidate.validateAccount(any())).thenReturn(listMock);
         when(accountRepository.findById(anyInt())).thenReturn(account);
@@ -62,10 +59,7 @@ public class CreateAccountUseCaseTest {
 
     @Test
     public void account_created_success() throws Exception {
-        account.setId(1);
-        account.setActiveCard(true);
-        account.setAvailableLimit(100);
-        account.setDomainEvents(new DomainEventCollection());
+        account = new Account(1, true, 100, new DomainEventCollection());
 
         createAccountUseCase.handle(1, true, 100);
 

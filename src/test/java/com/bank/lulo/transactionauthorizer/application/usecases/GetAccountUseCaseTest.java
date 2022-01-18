@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 @RunWith(JUnitParamsRunner.class)
 public class GetAccountUseCaseTest {
 
-    Account account = new Account();
+    Account account;
     GetAccountUseCase getAccountUseCase;
 
     @Mock
@@ -31,10 +31,7 @@ public class GetAccountUseCaseTest {
 
     @Test
     public void get_account_success() {
-        account.setId(1);
-        account.setActiveCard(true);
-        account.setAvailableLimit(100);
-        account.setDomainEvents(new DomainEventCollection());
+        account = new Account(1, true, 100, new DomainEventCollection());
 
         when(accountRepository.findById(anyInt())).thenReturn(account);
         Account responseAccount = getAccountUseCase.handle(1);
