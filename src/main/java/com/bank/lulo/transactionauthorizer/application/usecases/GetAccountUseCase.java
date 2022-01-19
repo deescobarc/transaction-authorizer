@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class GetAccountUseCase {
 
-    private AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
 
     public GetAccountUseCase(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;

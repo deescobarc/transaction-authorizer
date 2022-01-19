@@ -46,7 +46,6 @@ public final class Account implements Serializable {
     public static Account create(int id, boolean activeCard, int availableLimit){
 
         Account account = new Account(id, activeCard, availableLimit, new DomainEventCollection());
-
         account.domainEvents.add(new AccountCreatedDomainEvent(account.getId()));
         return account;
     }
@@ -55,6 +54,15 @@ public final class Account implements Serializable {
 
         account.setViolations(violations);
         account.domainEvents.add(new AccountViolationDomainEvent(account.getId()));
+        return account;
+    }
+
+    public static Account updateAmmount(Account account, int amount){
+
+        int newAvailableLimit = account.getAvailableLimit() - amount;
+        account.setAvailableLimit(newAvailableLimit);
+        account.setViolations(new ArrayList<>());
+        account.domainEvents.add(new AccountUpdateAvailableLimitDomainEvent(account.getId()));
         return account;
     }
 

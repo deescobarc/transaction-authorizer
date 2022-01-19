@@ -42,8 +42,7 @@ public class AccountControllerTest {
     @Test
     public void get_error_bad_request() throws Exception {
 
-        RequestAccount requestAccount = new RequestAccount();
-        requestAccount.setAccount(new Account(1, true, 100, new DomainEventCollection()));
+        RequestAccount requestAccount = new RequestAccount(new Account(1, true, 100, new DomainEventCollection()));
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.
                 post("/api/accounts").

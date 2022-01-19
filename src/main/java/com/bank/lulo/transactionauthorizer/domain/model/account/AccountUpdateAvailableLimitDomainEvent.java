@@ -2,11 +2,11 @@ package com.bank.lulo.transactionauthorizer.domain.model.account;
 
 import com.bank.lulo.transactionauthorizer.domain.shared.domaineventbus.DomainEvent;
 
-public class AccountViolationDomainEvent extends DomainEvent {
+public class AccountUpdateAvailableLimitDomainEvent extends DomainEvent  {
 
-    private final int accountId;
+    private int accountId;
 
-    public AccountViolationDomainEvent(int accountId) {
+    public AccountUpdateAvailableLimitDomainEvent(int accountId) {
         this.accountId = accountId;
     }
 

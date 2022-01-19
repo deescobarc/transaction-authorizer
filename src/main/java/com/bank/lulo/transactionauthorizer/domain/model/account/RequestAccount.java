@@ -6,4 +6,8 @@ import lombok.Data;
 public class RequestAccount {
 
     private Account account;
+
+    public RequestAccount(Account account) {
+        this.account = account;
+    }
 }

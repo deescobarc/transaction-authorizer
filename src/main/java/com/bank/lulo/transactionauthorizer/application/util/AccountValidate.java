@@ -20,7 +20,7 @@ public class AccountValidate {
         return violations;
     }
 
-    public void validateExistence(Account account) {
+    private void validateExistence(Account account) {
         Account accountExists = accountRepository.findById(account.getId());
         if(accountExists != null){
             violations.add(MESSAGE_EXISTS_ACCOUNT);

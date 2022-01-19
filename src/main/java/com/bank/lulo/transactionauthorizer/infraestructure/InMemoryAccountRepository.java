@@ -11,17 +11,17 @@ import java.util.concurrent.atomic.AtomicLong;
 @Component
 public class InMemoryAccountRepository implements AccountRepository {
 
-    private AtomicLong secuence;
+    private AtomicLong sequence;
     private Map<Integer, Account> accounts;
 
     public InMemoryAccountRepository(){
-        this.secuence = new AtomicLong();
+        this.sequence = new AtomicLong();
         this.accounts = new HashMap<>();
     }
 
     @Override
     public int getId() {
-        return (int) secuence.addAndGet(1);
+        return (int) sequence.addAndGet(1);
     }
 
     @Override
