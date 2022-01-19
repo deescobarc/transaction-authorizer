@@ -5,7 +5,10 @@ import com.bank.lulo.transactionauthorizer.domain.model.transaction.TransactionI
 import com.bank.lulo.transactionauthorizer.domain.model.transaction.TransactionRepository;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -28,6 +31,32 @@ public class inMemoryTransactionRepository implements TransactionRepository {
     @Override
     public Transaction findById(TransactionId id) {
         return transactions.get(id);
+    }
+
+    @Override
+    public List<Transaction> getTransactionsInIntervalForAccount(LocalDateTime timeA, LocalDateTime timeB, int idAccount) {
+        List<Transaction> transactionsInInterval = new ArrayList<>();
+        for (Transaction value : transactions.values()) {
+            if(value.getIdAccount() == idAccount
+                    && (value.getTime().isAfter(timeA) || value.getTime().isEqual(timeA))
+                    && (value.getTime().isBefore(timeB) || value.getTime().isEqual(timeB))){
+                transactionsInInterval.add(value);
+            }
+        }
+        return transactionsInInterval;
+    }
+
+    @Override
+    public List<Transaction> getTransactionsInIntervalForAmountAndMerchant(LocalDateTime timeA, LocalDateTime timeB, int amount, String merchant) {
+        List<Transaction> transactionsInInterval = new ArrayList<>();
+        for (Transaction value : transactions.values()) {
+            if(value.getAmount() == amount && value.getMerchant().equals(merchant)
+                    && (value.getTime().isAfter(timeA) || value.getTime().isEqual(timeA))
+                    && (value.getTime().isBefore(timeB) || value.getTime().isEqual(timeB))){
+                transactionsInInterval.add(value);
+            }
+        }
+        return transactionsInInterval;
     }
 
     @Override

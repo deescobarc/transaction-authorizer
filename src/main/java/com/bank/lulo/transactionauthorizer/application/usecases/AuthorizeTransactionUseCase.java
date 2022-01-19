@@ -32,6 +32,7 @@ public class AuthorizeTransactionUseCase {
 
         Transaction transaction = new Transaction(id, idAccount, merchant, amount, time, new DomainEventCollection());
         transactionValidate.setAccountRepository(accountRepository);
+        transactionValidate.setTransactionRepository(transactionRepository);
 
         List<String> violations = transactionValidate.validateTransaction(transaction);
 
@@ -40,11 +41,13 @@ public class AuthorizeTransactionUseCase {
         if(!violations.isEmpty()){
             if(accountSearch != null){
                 Account.updateWithViolations(accountSearch, violations);
+                domainEventBus.publish(accountSearch.getDomainEvents());
             }else{
                 Transaction.updateWithViolations(transaction, violations);
             }
         }else{
             Account.updateAmmount(accountSearch, amount);
+            Transaction.create(transaction);
         }
 
         transactionRepository.persist(transaction);

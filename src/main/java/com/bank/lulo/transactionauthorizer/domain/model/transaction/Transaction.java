@@ -1,6 +1,8 @@
 package com.bank.lulo.transactionauthorizer.domain.model.transaction;
 
 import com.bank.lulo.transactionauthorizer.application.util.ConvertDate;
+import com.bank.lulo.transactionauthorizer.domain.model.account.Account;
+import com.bank.lulo.transactionauthorizer.domain.model.account.AccountCreatedDomainEvent;
 import com.bank.lulo.transactionauthorizer.domain.shared.domaineventbus.DomainEventCollection;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -47,6 +49,7 @@ public final class Transaction implements Serializable {
 
     public Transaction(){
         this.idTransaction = new TransactionId(UUID.randomUUID());
+        this.domainEvents = new DomainEventCollection();
     }
 
     public Transaction(int id, String merchant, int amount, String time) {
@@ -80,6 +83,12 @@ public final class Transaction implements Serializable {
 
         transaction.setViolations(violations);
         transaction.domainEvents.add(new TransactionAccountNotInitiliazedDomainEvent(transaction.getIdTransaction()));
+        return transaction;
+    }
+
+    public static Transaction create(Transaction transaction){
+
+        transaction.domainEvents.add(new TransactionAuthorizedDomainEvent(transaction.getIdTransaction()));
         return transaction;
     }
 }
