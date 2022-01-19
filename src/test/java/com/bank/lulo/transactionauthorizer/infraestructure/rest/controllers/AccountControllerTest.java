@@ -66,4 +66,18 @@ public class AccountControllerTest {
         MockHttpServletResponse response = result.getResponse();
         Assert.assertEquals(400, response.getStatus());
     }
+
+    @Test
+    public void authorized_transaction_success() throws Exception {
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.
+                post("/api/accounts").
+                contentType(MediaType.APPLICATION_JSON).
+                accept(MediaType.APPLICATION_JSON).
+                content("{ \"transaction\" : { \"id\" : 1 , \"merchant\" : \"Burger King\" , \"amount\" : 20 ,\n" +
+                        "\"time\" : \"2019-02-13T10:00:00.000Z\" }}").
+                characterEncoding("utf-8");
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        Assert.assertEquals(404, response.getStatus());
+    }
 }
